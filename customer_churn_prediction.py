@@ -164,3 +164,19 @@ axes[1].set_ylabel("Actual")
 plt.tight_layout()
 plt.savefig("images/07_confusion_matrices.png")
 plt.show()
+
+
+lr_param_grid = {                                                       //hyperparameter tuning
+    "C": [0.01, 0.1, 1, 10],
+    "class_weight": [None, "balanced"]
+}
+lr_grid = GridSearchCV(
+    LogisticRegression(max_iter=2000, random_state=42),
+    lr_param_grid, cv=5, scoring="f1", n_jobs=-1
+)
+lr_grid.fit(X_train_scaled, y_train)
+best_lr = lr_grid.best_estimator_
+print("Best LR params:", lr_grid.best_params_)
+y_pred_lr_tuned = best_lr.predict(X_test_scaled)
+y_proba_lr_tuned = best_lr.predict_proba(X_test_scaled)[:, 1]
+print("Tuned Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_lr_tuned))
