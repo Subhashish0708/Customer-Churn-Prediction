@@ -60,3 +60,13 @@ plt.legend(title="Churn", labels=["Stayed", "Left"])
 plt.tight_layout()
 plt.savefig("images/02_churn_by_contract.png")
 plt.show()
+
+ 
+plt.figure(figsize=(5, 4))                                               //Monthly charges vs churn
+sns.boxplot(x="Churn", y="MonthlyCharges", data=df)
+plt.title("Monthly Charges vs Churn")
+plt.xlabel("Churn (0 = Stayed, 1 = Left)")
+plt.ylabel("Monthly Charges ($)")
+plt.tight_layout()
+plt.savefig("images/03_monthlycharges_vs_churn.png")
+plt.show()
