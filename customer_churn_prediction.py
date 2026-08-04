@@ -199,3 +199,22 @@ print("Best RF params:", rf_grid.best_params_)
 y_pred_rf_tuned = best_rf.predict(X_test)
 y_proba_rf_tuned = best_rf.predict_proba(X_test)[:, 1]
 print("Tuned Random Forest Accuracy:", accuracy_score(y_test, y_pred_rf_tuned))
+
+
+
+def get_metrics(name, y_true, y_pred, y_proba):                               //Model comparison
+    return {
+        "Model": name,
+        "Accuracy": accuracy_score(y_true, y_pred),
+        "Precision": precision_score(y_true, y_pred),
+        "Recall": recall_score(y_true, y_pred),
+        "F1-score": f1_score(y_true, y_pred),
+        "ROC-AUC": roc_auc_score(y_true, y_proba),
+    }
+results = pd.DataFrame([
+    get_metrics("Logistic Regression (baseline)", y_test, y_pred_lr, y_proba_lr),
+    get_metrics("Logistic Regression (tuned)", y_test, y_pred_lr_tuned, y_proba_lr_tuned),
+    get_metrics("Random Forest (baseline)", y_test, y_pred_rf, y_proba_rf),
+    get_metrics("Random Forest (tuned)", y_test, y_pred_rf_tuned, y_proba_rf_tuned),
+]).set_index("Model").round(4)
+results
