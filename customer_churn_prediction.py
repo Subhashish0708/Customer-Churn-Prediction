@@ -28,3 +28,6 @@ df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")         
 
 print("Missing values created by conversion:", df["TotalCharges"].isnull().sum())
 df[df["TotalCharges"].isnull()][["customerID", "tenure", "MonthlyCharges", "TotalCharges"]] 
+
+df["TotalCharges"] = df["TotalCharges"].fillna(0)                    //these are costomer
+df.isnull().sum().sum()
