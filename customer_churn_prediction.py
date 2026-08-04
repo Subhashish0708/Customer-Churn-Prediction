@@ -167,7 +167,7 @@ plt.show()
 
 
 lr_param_grid = {                                                       //hyperparameter tuning
-    "C": [0.01, 0.1, 1, 10],
+    "C": [0.01, 0.1, 1, 10],                                                //Tune Logistic Regression
     "class_weight": [None, "balanced"]
 }
 lr_grid = GridSearchCV(
