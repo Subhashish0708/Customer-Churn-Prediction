@@ -247,3 +247,38 @@ plt.tight_layout()
 plt.savefig("images/09_roc_curve.png")
 plt.show()
 
+importances = pd.Series(best_rf.feature_importances_, index=X.columns).sort_values(ascending=False).head(15)
+plt.figure(figsize=(7, 6))                                                                    //Random Forest
+sns.barplot(x=importances.values, y=importances.index, palette="viridis")
+plt.title("Top 15 Feature Importances (Random Forest)")
+plt.xlabel("Importance")
+plt.tight_layout()
+plt.savefig("images/10_feature_importance.png")
+plt.show()
+
+
+
+new_customer_raw = pd.DataFrame([{                                                          //Predict churn for a new customer
+    "gender": "Female", "SeniorCitizen": 0, "Partner": "No", "Dependents": "No",
+    "tenure": 2, "PhoneService": "Yes", "MultipleLines": "No",
+    "InternetService": "Fiber optic", "OnlineSecurity": "No", "OnlineBackup": "No",
+    "DeviceProtection": "No", "TechSupport": "No", "StreamingTV": "Yes",
+    "StreamingMovies": "Yes", "Contract": "Month-to-month", "PaperlessBilling": "Yes",
+    "PaymentMethod": "Electronic check", "MonthlyCharges": 95.0, "TotalCharges": 190.0,
+}])
+
+# Apply the exact same encoding pipeline used for training
+nc = new_customer_raw.copy()
+for col in binary_cols:
+    nc[col] = nc[col].map({"Yes": 1, "No": 0})
+nc["gender"] = nc["gender"].map({"Male": 1, "Female": 0})
+nc = pd.get_dummies(nc, columns=multi_cat_cols, drop_first=True)
+
+# Align columns with training data (add any missing dummy columns as 0)
+nc = nc.reindex(columns=X.columns, fill_value=0)
+
+prediction = best_rf.predict(nc)[0]
+probability = best_rf.predict_proba(nc)[0][1]
+
+print(f"Prediction: {'Likely to CHURN' if prediction == 1 else 'Likely to STAY'}")
+print(f"Churn probability: {probability:.1%}")
