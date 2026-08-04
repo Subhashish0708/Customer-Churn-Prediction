@@ -218,3 +218,32 @@ results = pd.DataFrame([
     get_metrics("Random Forest (tuned)", y_test, y_pred_rf_tuned, y_proba_rf_tuned),
 ]).set_index("Model").round(4)
 results
+
+results_plot = results.reset_index()
+
+plt.figure(figsize=(9, 5))
+x = np.arange(len(results_plot))
+width = 0.2
+metrics_to_plot = ["Accuracy", "Precision", "Recall", "F1-score"]
+for i, m in enumerate(metrics_to_plot):
+    plt.bar(x + i * width, results_plot[m], width, label=m)
+
+plt.xticks(x + width * 1.5, results_plot["Model"], rotation=15, ha="right")
+plt.ylim(0, 1)
+plt.ylabel("Score")
+plt.title("Model Comparison Across Metrics")
+plt.legend()
+plt.tight_layout()
+plt.savefig("images/08_model_comparison.png")
+plt.show()
+
+fig, ax = plt.subplots(figsize=(6, 5))
+RocCurveDisplay.from_predictions(y_test, y_proba_lr_tuned, name="Logistic Regression (tuned)", ax=ax)
+RocCurveDisplay.from_predictions(y_test, y_proba_rf_tuned, name="Random Forest (tuned)", ax=ax)
+ax.plot([0, 1], [0, 1], linestyle="--", color="gray", label="Random guess")
+ax.set_title("ROC Curve Comparison")
+ax.legend()
+plt.tight_layout()
+plt.savefig("images/09_roc_curve.png")
+plt.show()
+
