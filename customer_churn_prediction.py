@@ -145,3 +145,22 @@ y_pred_rf = rf.predict(X_test)
 y_proba_rf = rf.predict_proba(X_test)[:, 1]
 print("Random Forest Accuracy:", accuracy_score(y_test, y_pred_rf))
 print(classification_report(y_test, y_pred_rf, target_names=["No Churn", "Churn"]))
+
+
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.5))                                        //Confusion matrices
+cm_lr = confusion_matrix(y_test, y_pred_lr)
+sns.heatmap(cm_lr, annot=True, fmt="d", cmap="Blues",
+            xticklabels=["No Churn", "Churn"], yticklabels=["No Churn", "Churn"], ax=axes[0])
+axes[0].set_title("Logistic Regression")
+axes[0].set_xlabel("Predicted")
+axes[0].set_ylabel("Actual")
+cm_rf = confusion_matrix(y_test, y_pred_rf)
+sns.heatmap(cm_rf, annot=True, fmt="d", cmap="Greens",
+            xticklabels=["No Churn", "Churn"], yticklabels=["No Churn", "Churn"], ax=axes[1])
+axes[1].set_title("Random Forest")
+axes[1].set_xlabel("Predicted")
+axes[1].set_ylabel("Actual")
+plt.tight_layout()
+plt.savefig("images/07_confusion_matrices.png")
+plt.show()
