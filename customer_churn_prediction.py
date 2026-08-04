@@ -137,3 +137,11 @@ y_pred_lr = log_reg.predict(X_test_scaled)
 y_proba_lr = log_reg.predict_proba(X_test_scaled)[:, 1]
 print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_lr))
 print(classification_report(y_test, y_pred_lr, target_names=["No Churn", "Churn"]))
+
+
+rf = RandomForestClassifier(n_estimators=300, random_state=42)                         //Random Forest
+rf.fit(X_train, y_train)
+y_pred_rf = rf.predict(X_test)
+y_proba_rf = rf.predict_proba(X_test)[:, 1]
+print("Random Forest Accuracy:", accuracy_score(y_test, y_pred_rf))
+print(classification_report(y_test, y_pred_rf, target_names=["No Churn", "Churn"]))
