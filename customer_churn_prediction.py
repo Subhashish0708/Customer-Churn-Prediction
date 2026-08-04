@@ -70,3 +70,13 @@ plt.ylabel("Monthly Charges ($)")
 plt.tight_layout()
 plt.savefig("images/03_monthlycharges_vs_churn.png")
 plt.show()
+
+  
+plt.figure(figsize=(5, 4))                                             //Tenure vs churn
+sns.boxplot(x="Churn", y="tenure", data=df)
+plt.title("Tenure (months) vs Churn")
+plt.xlabel("Churn (0 = Stayed, 1 = Left)")
+plt.ylabel("Tenure (months)")
+plt.tight_layout()
+plt.savefig("images/04_tenure_vs_churn.png")
+plt.show()
