@@ -92,3 +92,12 @@ axes[1].legend(title="Churn", labels=["Stayed", "Left"])
 plt.tight_layout()
 plt.savefig("images/05_service_payment_churn.png")
 plt.show()
+
+
+numeric_cols = ["SeniorCitizen", "tenure", "MonthlyCharges", "TotalCharges", "Churn"]          //Correlation heatmap (numeric features)
+plt.figure(figsize=(6, 5))
+sns.heatmap(df[numeric_cols].corr(), annot=True, fmt=".2f", cmap="coolwarm", center=0)
+plt.title("Correlation Heatmap")
+plt.tight_layout()
+plt.savefig("images/06_correlation_heatmap.png")
+plt.show()
