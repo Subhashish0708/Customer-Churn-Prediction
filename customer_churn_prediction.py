@@ -101,3 +101,21 @@ plt.title("Correlation Heatmap")
 plt.tight_layout()
 plt.savefig("images/06_correlation_heatmap.png")
 plt.show()
+
+
+
+data = df.copy()                                                                               //Feature engineering & encoding
+binary_cols = ["Partner", "Dependents", "PhoneService", "PaperlessBilling"]
+for col in binary_cols:
+    data[col] = data[col].map({"Yes": 1, "No": 0})
+data["gender"] = data["gender"].map({"Male": 1, "Female": 0})
+multi_cat_cols = [
+    "MultipleLines", "InternetService", "OnlineSecurity", "OnlineBackup",
+    "DeviceProtection", "TechSupport", "StreamingTV", "StreamingMovies",
+    "Contract", "PaymentMethod"
+]
+data = pd.get_dummies(data, columns=multi_cat_cols, drop_first=True)
+print("Final feature count:", data.shape[1] - 1)
+data.head()
+
+
