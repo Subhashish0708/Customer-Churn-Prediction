@@ -31,3 +31,21 @@ df[df["TotalCharges"].isnull()][["customerID", "tenure", "MonthlyCharges", "Tota
 
 df["TotalCharges"] = df["TotalCharges"].fillna(0)                    //these are costomer
 df.isnull().sum().sum()
+
+df = df.drop(columns=["customerID"])                                 //Drop the unique identifier - it has no predictive value
+df["Churn"] = df["Churn"].map({"Yes": 1, "No": 0})
+print(df.shape)
+df.head()
+
+
+churn_counts = df["Churn"].value_counts()                                    //Exploratory Data Analysis
+print(churn_counts)
+print("\nChurn rate: {:.1f}%".format(df["Churn"].mean() * 100))
+plt.figure(figsize=(5, 4))
+sns.countplot(x="Churn", data=df, palette=["#4C72B0", "#DD8452"])
+plt.title("Customer Churn Distribution")
+plt.xlabel("Churn (0 = Stayed, 1 = Left)")
+plt.ylabel("Number of Customers")
+plt.tight_layout()
+plt.savefig("images/01_churn_distribution.png")
+plt.show()
