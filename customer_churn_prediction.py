@@ -80,3 +80,15 @@ plt.ylabel("Tenure (months)")
 plt.tight_layout()
 plt.savefig("images/04_tenure_vs_churn.png")
 plt.show()
+
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4.5))                             //Churn by internet service and payment method
+sns.countplot(x="InternetService", hue="Churn", data=df, ax=axes[0])
+axes[0].set_title("Churn by Internet Service")
+axes[0].legend(title="Churn", labels=["Stayed", "Left"])
+sns.countplot(y="PaymentMethod", hue="Churn", data=df, ax=axes[1])
+axes[1].set_title("Churn by Payment Method")
+axes[1].legend(title="Churn", labels=["Stayed", "Left"])
+plt.tight_layout()
+plt.savefig("images/05_service_payment_churn.png")
+plt.show()
