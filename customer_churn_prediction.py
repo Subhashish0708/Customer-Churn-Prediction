@@ -22,3 +22,9 @@ print("Shape:", df.shape)
 df.head()
 
 df.info()                                                               //Understand the dataset
+df.describe(include="all").T
+ 
+df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")                //Data cleaning
+
+print("Missing values created by conversion:", df["TotalCharges"].isnull().sum())
+df[df["TotalCharges"].isnull()][["customerID", "tenure", "MonthlyCharges", "TotalCharges"]] 
