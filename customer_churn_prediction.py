@@ -21,3 +21,4 @@ df = pd.read_csv("dataset/customer_churn.csv")                           //Load 
 print("Shape:", df.shape)
 df.head()
 
+df.info()                                                               //Understand the dataset
