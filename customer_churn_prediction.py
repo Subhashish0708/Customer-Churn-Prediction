@@ -49,3 +49,14 @@ plt.ylabel("Number of Customers")
 plt.tight_layout()
 plt.savefig("images/01_churn_distribution.png")
 plt.show()
+
+
+plt.figure(figsize=(6, 4))                                                 //Churn by contract type
+sns.countplot(x="Contract", hue="Churn", data=df)
+plt.title("Churn by Contract Type")
+plt.xlabel("Contract Type")
+plt.ylabel("Number of Customers")
+plt.legend(title="Churn", labels=["Stayed", "Left"])
+plt.tight_layout()
+plt.savefig("images/02_churn_by_contract.png")
+plt.show()
