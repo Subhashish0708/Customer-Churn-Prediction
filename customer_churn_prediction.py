@@ -180,3 +180,22 @@ print("Best LR params:", lr_grid.best_params_)
 y_pred_lr_tuned = best_lr.predict(X_test_scaled)
 y_proba_lr_tuned = best_lr.predict_proba(X_test_scaled)[:, 1]
 print("Tuned Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_lr_tuned))
+
+
+
+rf_param_grid = {                                                          //Tune Random Forest
+    "n_estimators": [200, 400],
+    "max_depth": [8, 12, None],
+    "min_samples_leaf": [1, 2, 4],
+    "class_weight": [None, "balanced"]
+}
+rf_grid = GridSearchCV(
+    RandomForestClassifier(random_state=42),
+    rf_param_grid, cv=5, scoring="f1", n_jobs=-1
+)
+rf_grid.fit(X_train, y_train)
+best_rf = rf_grid.best_estimator_
+print("Best RF params:", rf_grid.best_params_)
+y_pred_rf_tuned = best_rf.predict(X_test)
+y_proba_rf_tuned = best_rf.predict_proba(X_test)[:, 1]
+print("Tuned Random Forest Accuracy:", accuracy_score(y_test, y_pred_rf_tuned))
