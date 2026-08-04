@@ -119,3 +119,9 @@ print("Final feature count:", data.shape[1] - 1)
 data.head()
 
 
+X = data.drop(columns=["Churn"])                                              //Train / test split
+y = data["Churn"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+print("Train size:", X_train.shape, " Test size:", X_test.shape)
