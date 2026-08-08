@@ -1,0 +1,21 @@
+CustomerID,Age,Tenure,MonthlyCharges,Contract,InternetService,SupportCalls,TotalCharges,Churn
+1001,25,2,70,Month-to-month,Fiber optic,5,140,Yes
+1002,45,24,50,One year,DSL,1,1200,No
+1003,32,5,80,Month-to-month,Fiber optic,4,400,Yes
+1004,52,36,45,Two year,DSL,0,1620,No
+1005,28,3,75,Month-to-month,Fiber optic,6,225,Yes
+1006,40,18,60,One year,DSL,2,1080,No
+1007,35,7,85,Month-to-month,Fiber optic,5,595,Yes
+1008,60,48,40,Two year,DSL,0,1920,No
+1009,29,4,90,Month-to-month,Fiber optic,7,360,Yes
+1010,48,30,55,One year,DSL,1,1650,No
+1011,38,12,65,Month-to-month,Fiber optic,3,780,Yes
+1012,55,40,48,Two year,DSL,0,1920,No
+1013,26,1,95,Month-to-month,Fiber optic,8,95,Yes
+1014,43,20,58,One year,DSL,2,1160,No
+1015,31,6,78,Month-to-month,Fiber optic,4,468,Yes
+1016,57,42,42,Two year,DSL,0,1764,No
+1017,36,10,72,Month-to-month,Fiber optic,5,720,Yes
+1018,49,28,52,One year,DSL,1,1456,No
+1019,27,2,88,Month-to-month,Fiber optic,6,176,Yes
+1020,54,38,46,Two year,DSL,0,1748,No

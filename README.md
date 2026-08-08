@@ -1,115 +1,348 @@
-# Customer Churn Prediction
+# 📊 Customer Churn Prediction
 
-An end-to-end machine learning project that predicts whether a telecom customer will
-**churn** (leave) or **stay**, built on the real **IBM Telco Customer Churn** dataset
-(7,043 customers, 21 columns).
+A Machine Learning project that predicts whether a customer is likely to **churn (leave a service)** or **stay**, based on customer information such as tenure, monthly charges, contract type, internet service, and support calls.
 
-## Project structure
+The project uses **Python, Pandas, Scikit-learn, Matplotlib, Seaborn, and Streamlit** to perform data analysis, train machine learning models, evaluate their performance, and provide an interactive prediction interface.
 
-```
+---
+
+## 📌 Project Overview
+
+Customer churn is an important problem for businesses because losing existing customers can directly affect revenue.
+
+This project analyzes customer information and uses machine learning to identify customers who are more likely to leave a service.
+
+The project includes:
+
+* Data loading and preprocessing
+* Exploratory Data Analysis (EDA)
+* Data visualization
+* Feature encoding
+* Logistic Regression
+* Random Forest Classification
+* Model evaluation
+* Feature importance analysis
+* Model saving using Joblib
+* Interactive Streamlit web application
+
+---
+
+## 🎯 Objectives
+
+The main objectives of this project are:
+
+1. Analyze customer data.
+2. Identify factors associated with customer churn.
+3. Build a machine learning model to predict churn.
+4. Compare different classification algorithms.
+5. Identify important features influencing churn.
+6. Create an interactive web application for predictions.
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology       | Purpose                           |
+| ---------------- | --------------------------------- |
+| Python           | Programming language              |
+| Pandas           | Data manipulation                 |
+| NumPy            | Numerical computation             |
+| Matplotlib       | Data visualization                |
+| Seaborn          | Statistical visualization         |
+| Scikit-learn     | Machine learning                  |
+| Joblib           | Model serialization               |
+| Streamlit        | Web application                   |
+| Jupyter Notebook | Data analysis and experimentation |
+
+---
+
+## 📂 Project Structure
+
+```text
 Customer-Churn-Prediction/
 │
 ├── dataset/
-│   └── customer_churn.csv          # Real IBM Telco Customer Churn dataset
+│   └── customer_churn.csv
 │
-├── images/                         # Saved charts from the notebook
-│   ├── 01_churn_distribution.png
-│   ├── 02_churn_by_contract.png
-│   ├── 03_monthlycharges_vs_churn.png
-│   ├── 04_tenure_vs_churn.png
-│   ├── 05_service_payment_churn.png
-│   ├── 06_correlation_heatmap.png
-│   ├── 07_confusion_matrices.png
-│   ├── 08_model_comparison.png
-│   ├── 09_roc_curve.png
-│   └── 10_feature_importance.png
+├── images/
+│   └── screenshots
 │
-├── customer_churn_prediction.ipynb # Full, already-executed notebook
-├── README.md
-└── requirements.txt
+├── customer_churn_prediction.ipynb
+├── customer_churn_model.pkl
+├── app.py
+├── requirements.txt
+└── README.md
 ```
 
-## Dataset
+---
 
-The [IBM Telco Customer Churn dataset](https://community.ibm.com/community/user/businessanalytics/blogs/steven-macko/2019/07/11/telco-customer-churn-1113)
-contains demographic info, account details, and subscribed services for 7,043 customers of a
-fictional telecom company, with a `Churn` (Yes/No) label for each.
+## 📊 Dataset
 
-Key columns: `gender`, `SeniorCitizen`, `Partner`, `Dependents`, `tenure`, `PhoneService`,
-`MultipleLines`, `InternetService`, `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`,
-`TechSupport`, `StreamingTV`, `StreamingMovies`, `Contract`, `PaperlessBilling`,
-`PaymentMethod`, `MonthlyCharges`, `TotalCharges`, `Churn`.
+The dataset contains customer information used to predict whether a customer will churn.
 
-## Workflow
+### Features
 
-1. **Data cleaning** — converted `TotalCharges` from text to numeric (11 blank values from
-   brand-new customers were filled with 0), dropped the non-predictive `customerID` column.
-2. **Exploratory Data Analysis** — churn distribution, churn by contract type, monthly charges
-   vs. churn, tenure vs. churn, churn by internet service & payment method, correlation heatmap.
-3. **Feature engineering** — label-encoded binary Yes/No columns, one-hot encoded multi-category
-   columns (Contract, InternetService, PaymentMethod, etc.), producing 30 model features.
-4. **Modeling** — trained baseline **Logistic Regression** and **Random Forest** classifiers on an
-   80/20 stratified train/test split.
-5. **Hyperparameter tuning** — used 5-fold `GridSearchCV` (optimizing F1-score) to tune both
-   models and address class imbalance via `class_weight="balanced"`.
-6. **Evaluation** — compared all four model variants on Accuracy, Precision, Recall, F1-score,
-   and ROC-AUC; plotted confusion matrices, a metric comparison chart, and ROC curves.
-7. **Feature importance** — extracted and visualized the top drivers of churn from the tuned
-   Random Forest.
-8. **Live prediction** — scored a new, hypothetical customer profile through the full pipeline.
+| Feature         | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| CustomerID      | Unique customer identifier                           |
+| Age             | Age of the customer                                  |
+| Tenure          | Number of months the customer has stayed             |
+| MonthlyCharges  | Customer's monthly charges                           |
+| Contract        | Type of customer contract                            |
+| InternetService | Type of internet service                             |
+| SupportCalls    | Number of customer support calls                     |
+| TotalCharges    | Total amount charged to the customer                 |
+| Churn           | Target variable indicating whether the customer left |
 
-## Key EDA findings
+### Target Variable
 
-- The dataset is **imbalanced**: ~73% of customers stayed, ~27% churned.
-- **Month-to-month contracts churn far more** than one- or two-year contracts.
-- **Higher monthly charges** and **fiber-optic internet** are associated with higher churn.
-- **Longer tenure** strongly reduces churn — it's one of the most predictive features overall.
-- **Electronic check** payers churn more than customers on other payment methods.
+```text
+Yes → Customer churned
+No  → Customer stayed
+```
 
-## Model results
+---
 
-| Model | Accuracy | Precision | Recall | F1-score | ROC-AUC |
-|---|---|---|---|---|---|
-| Logistic Regression (baseline) | 0.807 | 0.658 | 0.567 | 0.609 | 0.842 |
-| Logistic Regression (tuned) | 0.740 | 0.507 | 0.786 | 0.616 | 0.841 |
-| Random Forest (baseline) | 0.788 | 0.628 | 0.492 | 0.552 | 0.826 |
-| **Random Forest (tuned)** | 0.757 | 0.529 | 0.778 | **0.630** | **0.843** |
+## 🔄 Machine Learning Workflow
 
-*(Best model per metric in bold; see the notebook for the exact numbers and how they were computed.)*
+```text
+Customer Dataset
+       ↓
+Data Loading
+       ↓
+Data Exploration
+       ↓
+Data Cleaning
+       ↓
+Exploratory Data Analysis
+       ↓
+Data Visualization
+       ↓
+Feature Encoding
+       ↓
+Train/Test Split
+       ↓
+Model Training
+       ↓
+Model Evaluation
+       ↓
+Feature Importance
+       ↓
+Churn Prediction
+       ↓
+Streamlit Web Application
+```
 
-**Takeaway:** Raw accuracy is misleading on this imbalanced dataset. The **tuned Random Forest**
-achieves the best F1-score and ROC-AUC — the best overall balance between catching real churners
-(recall) and not over-flagging loyal customers (precision). If the business priority is to catch
-as many at-risk customers as possible (even at the cost of some false alarms), the tuned models
-(with `class_weight="balanced"`) are the better choice, since they roughly **raise recall from
-~0.49–0.57 to ~0.78**.
+---
 
-Best hyperparameters found:
-- Logistic Regression: `C=1`, `class_weight="balanced"`
-- Random Forest: `n_estimators=400`, `max_depth=8`, `min_samples_leaf=1`, `class_weight="balanced"`
+## 🤖 Machine Learning Models
 
-## Top churn drivers (Random Forest feature importance)
+### 1. Logistic Regression
 
-`tenure`, `MonthlyCharges`, `TotalCharges`, and `Contract_Two year` are the strongest predictors —
-confirming the EDA: customers on long contracts with low charges and long tenure are the least
-likely to churn.
+Logistic Regression is used as a baseline classification model for predicting whether a customer will churn.
 
-## How to run
+### 2. Random Forest
+
+Random Forest is used as a second classification model. It combines multiple decision trees and can capture relationships between different customer features.
+
+The models are compared based on their prediction performance.
+
+---
+
+## 📈 Model Evaluation
+
+The models are evaluated using:
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* Confusion Matrix
+
+Example evaluation:
+
+```python
+accuracy_score(y_test, y_pred)
+```
+
+Classification report:
+
+```python
+classification_report(y_test, y_pred)
+```
+
+---
+
+## 🔍 Feature Importance
+
+The Random Forest model is also used to identify which customer attributes contribute most to churn prediction.
+
+```python
+importance = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": rf_model.feature_importances_
+})
+```
+
+This helps businesses understand which customer characteristics may require attention.
+
+---
+
+## 💾 Model Saving
+
+The trained Random Forest model is saved using Joblib:
+
+```python
+joblib.dump(rf_model, "customer_churn_model.pkl")
+```
+
+The saved model can then be loaded by the Streamlit application without retraining it.
+
+---
+
+## 🖥️ Streamlit Application
+
+The project includes an interactive web application built with Streamlit.
+
+Users can enter:
+
+* Age
+* Tenure
+* Monthly Charges
+* Contract Type
+* Internet Service
+* Support Calls
+* Total Charges
+
+The application then predicts whether the customer is likely to:
+
+```text
+🟢 Stay
+```
+
+or
+
+```text
+🔴 Churn
+```
+
+---
+
+## 🚀 Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/Customer-Churn-Prediction.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
+cd Customer-Churn-Prediction
+```
+
+### 3. Install the required libraries
 
 ```bash
 pip install -r requirements.txt
-jupyter notebook customer_churn_prediction.ipynb
 ```
 
-Or open the notebook directly in VS Code, JupyterLab, or Google Colab (upload `dataset/customer_churn.csv`
-alongside it).
+---
 
-## Next steps for a production system
+## ▶️ Run the Application
 
-- Try gradient-boosted models (XGBoost / LightGBM) for a further accuracy boost.
-- Use SMOTE or other resampling techniques to address class imbalance more directly.
-- Deploy the trained model behind an API and monitor performance drift as customer behavior changes.
+Run the Streamlit application using:
 
-## License / attribution
+```bash
+python -m streamlit run app.py
+```
 
-Dataset originally published by IBM for churn-analysis tutorials; used here for educational purposes.
+The application will open in your browser at:
+
+```text
+http://localhost:8501
+```
+
+---
+
+## 📸 Application Screenshots
+
+Add screenshots of your application inside the `images` folder and update this section.
+
+### Streamlit Application
+
+![Customer Churn Prediction App](images/app_screenshot.png)
+
+### Data Analysis
+
+![Data Analysis](images/eda_screenshot.png)
+
+### Model Evaluation
+
+![Model Evaluation](images/model_screenshot.png)
+
+---
+
+## 💡 Example Prediction
+
+A customer with:
+
+* Low tenure
+* High monthly charges
+* Month-to-month contract
+* High number of support calls
+
+may have a higher probability of churn.
+
+The application provides a prediction based on the trained machine learning model.
+
+---
+
+## 🔮 Future Improvements
+
+The project can be improved further by:
+
+* Using a larger real-world customer churn dataset
+* Adding more customer features
+* Implementing additional machine learning algorithms
+* Hyperparameter tuning
+* Cross-validation
+* Probability-based churn prediction
+* Adding customer retention recommendations
+* Deploying the Streamlit application online
+* Adding a database for customer records
+
+---
+
+## 🎓 Learning Outcomes
+
+Through this project, I learned how to:
+
+* Work with structured datasets
+* Perform data preprocessing
+* Conduct exploratory data analysis
+* Create meaningful visualizations
+* Encode categorical variables
+* Train classification models
+* Compare machine learning algorithms
+* Evaluate model performance
+* Analyze feature importance
+* Save and load trained machine learning models
+* Build an interactive machine learning web application using Streamlit
+
+---
+
+## 👨‍💻 Author
+
+**Subhashish Santosh Barik**
+
+GitHub: `https://github.com/Subhashish0708`
+
+LinkedIn: `https://www.linkedin.com/in/subhashish-barik-687339276/`
+
+---
+
+## 📄 License
+
+This project is created for **educational and internship purposes**.
